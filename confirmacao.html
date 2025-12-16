@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="supabase-url" content="">
     <title>Digital Tech - Confirmação de Cadastro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -69,20 +68,6 @@
                 </div>
                 
                 <div class="p-8">
-                    <div id="protocolInfo" class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-8 hidden">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-indigo-700 font-semibold">Número de Protocolo:</p>
-                                <p id="protocolValue" class="text-indigo-900 text-xl"></p>
-                            </div>
-                            <button id="copyProtocolBtn" class="bg-indigo-600 text-white font-semibold px-3 py-2 rounded hover:bg-indigo-700 transition">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="copyToast" class="fixed bottom-6 right-6 bg-indigo-600 text-white px-4 py-2 rounded shadow-lg hidden">
-                        Copiado
-                    </div>
                     <div class="mb-8">
                         <h3 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Dados do Cliente</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="clientData">
@@ -176,62 +161,6 @@
             const { clientData, serviceData } = getClientData();
             const clientDataContainer = document.getElementById('clientData');
             const serviceDataContainer = document.getElementById('serviceData');
-            const protocolInfo = document.getElementById('protocolInfo');
-            const protocolValue = document.getElementById('protocolValue');
-            const clientProtocol = localStorage.getItem('clientProtocol') || '';
-            const serviceProtocol = localStorage.getItem('serviceProtocol') || '';
-            const protocol = serviceProtocol || clientProtocol;
-            if (protocol) {
-                protocolValue.textContent = protocol;
-                protocolInfo.classList.remove('hidden');
-                const copyBtn = document.getElementById('copyProtocolBtn');
-                const copyToast = document.getElementById('copyToast');
-                if (copyBtn) {
-                    copyBtn.addEventListener('click', function() {
-                        const text = protocolValue.textContent || '';
-                        if (text) {
-                            navigator.clipboard.writeText(text).then(() => {
-                                if (copyToast) {
-                                    copyToast.classList.remove('hidden');
-                                    setTimeout(() => {
-                                        copyToast.classList.add('hidden');
-                                    }, 2000);
-                                }
-                                copyBtn.disabled = true;
-                                copyBtn.classList.add('opacity-70', 'cursor-not-allowed');
-                                copyBtn.innerHTML = '<i class="fas fa-check"></i>';
-                                setTimeout(() => {
-                                    copyBtn.disabled = false;
-                                    copyBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-                                    copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
-                                }, 1500);
-                            });
-                        }
-                    });
-                }
-                const clientProto = document.createElement('div');
-                clientProto.innerHTML = `
-                    <p class="text-gray-600 font-medium">Protocolo:</p>
-                    <p class="text-gray-800 text-lg">${protocol}</p>
-                `;
-                if (clientDataContainer.firstChild) {
-                    clientDataContainer.insertBefore(clientProto, clientDataContainer.firstChild);
-                } else {
-                    clientDataContainer.appendChild(clientProto);
-                }
-                const serviceProto = document.createElement('div');
-                serviceProto.innerHTML = `
-                    <div class="mb-2">
-                        <p class="text-gray-600 font-medium">Protocolo:</p>
-                        <p class="text-gray-800">${protocol}</p>
-                    </div>
-                `;
-                if (serviceDataContainer.firstChild) {
-                    serviceDataContainer.insertBefore(serviceProto, serviceDataContainer.firstChild);
-                } else {
-                    serviceDataContainer.appendChild(serviceProto);
-                }
-            }
             
             // Exibir dados do cliente
             if (Object.keys(clientData).length > 0) {
@@ -287,12 +216,6 @@
 
         // Executar quando a página carregar
         window.addEventListener('DOMContentLoaded', displayClientData);
-    </script>
-    <script type="module">
-        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-        const SUPABASE_URL = document.querySelector('meta[name="supabase-url"]')?.content || '';
-        const SUPABASE_KEY = 'sb_publishable_VnUv3wfgnZgYiS2L0e3Skg_CqBaDwT9';
-        window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
     </script>
 </body>
 </html>

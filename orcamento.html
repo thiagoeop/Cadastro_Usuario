@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#6e8efb">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="supabase-url" content="https://vohxhccomugyjdnbwrif.supabase.co">
+    <title>Digital Tech - Orçamento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+        }
+        .service-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .service-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 16px 32px rgba(106, 76, 255, 0.15);
+            border-color: #a777e3;
+        }
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.07); }
+            100% { transform: scale(1); }
+        }
+        /* Melhorias mobile */
+        html {
+            scroll-behavior: smooth;
+        }
+        input, select, textarea, button {
+            font-size: 1rem;
+        }
+        @media (max-width: 640px) {
+            h1, h2, h3, h4, h5, h6 {
+                font-size: 1.1em !important;
+            }
+            .container {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+            .rounded-lg {
+                border-radius: 0.75rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-laptop-code text-3xl"></i>
+                    <h1 class="text-2xl font-bold">Digital Tech</h1>
+                </div>
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-6">
+                        <li><a href="index.html#services" class="hover:text-gray-200 transition">Serviços</a></li>
+                        <li><a href="cadastro.html" class="hover:text-gray-200 transition">Cadastro</a></li>
+                        <li><a href="orcamento.html" class="hover:text-gray-200 transition font-bold">Orçamento</a></li>
+                        <li><a href="index.html#contact" class="hover:text-gray-200 transition">Contato</a></li>
+                    </ul>
+                </nav>
+                <button id="mobileMenuBtn" class="md:hidden text-2xl" aria-label="Abrir menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <nav id="mobileMenu" class="md:hidden hidden mt-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg shadow-lg">
+                <ul class="flex flex-col space-y-2 p-4">
+                    <li><a href="index.html#services" class="hover:text-gray-200 transition">Serviços</a></li>
+                    <li><a href="cadastro.html" class="hover:text-gray-200 transition">Cadastro</a></li>
+                    <li><a href="orcamento.html" class="hover:text-gray-200 transition font-bold">Orçamento</a></li>
+                    <li><a href="index.html#contact" class="hover:text-gray-200 transition">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Quote Section -->
+    <section id="quote" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Solicite um Orçamento</h2>
+            <div class="max-w-3xl mx-auto bg-gray-50 rounded-lg shadow-lg overflow-hidden">
+                <div class="gradient-bg text-white py-4 px-6">
+                    <h3 class="text-xl font-bold">Descreva o problema ou serviço necessário</h3>
+                    <p class="text-sm opacity-90">Responderemos em até 24 horas úteis</p>
+                </div>
+                <form id="quoteForm" class="p-6">
+                    <div class="mb-6">
+                        <label for="serviceType" class="block text-gray-700 font-medium mb-2">Tipo de Serviço*</label>
+                        <select id="serviceType" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                            <option value="" disabled selected>Selecione um serviço</option>
+                            <option value="preventiva">Manutenção Preventiva</option>
+                            <option value="corretiva">Manutenção Corretiva</option>
+                            <option value="virus">Remoção de Vírus</option>
+                            <option value="dados">Recuperação de Dados</option>
+                            <option value="rede">Problemas de Rede</option>
+                            <option value="upgrade">Upgrade de Hardware</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
+                        <label for="equipmentType" class="block text-gray-700 font-medium mb-2">Tipo de Equipamento*</label>
+                        <select id="equipmentType" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                            <option value="" disabled selected>Selecione o equipamento</option>
+                            <option value="notebook">Notebook</option>
+                            <option value="desktop">Computador Desktop</option>
+                            <option value="allinone">All-in-One</option>
+                            <option value="servidor">Servidor</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
+                        <label for="problemDescription" class="block text-gray-700 font-medium mb-2">Descrição do Problema/Serviço*</label>
+                        <textarea id="problemDescription" rows="5" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required></textarea>
+                    </div>
+                    <div class="mb-6">
+                        <label for="urgency" class="block text-gray-700 font-medium mb-2">Urgência</label>
+                        <select id="urgency" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <option value="normal">Normal (5 dias úteis)</option>
+                            <option value="urgente">Urgente (48 horas)</option>
+                            <option value="emergencia">Emergência (24 horas)</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
+                        <label for="clientEmail" class="block text-gray-700 font-medium mb-2">Seu E-mail*</label>
+                        <input type="email" id="clientEmail" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                    </div>
+                    <div>
+                        <button type="submit" class="gradient-bg text-white font-bold py-3 px-6 rounded-lg hover:opacity-90 transition w-full">
+                            Enviar Solicitação
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Digital Tech</h3>
+                    <p class="text-gray-400">Soluções em tecnologia e manutenção de computadores com qualidade e garantia.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Links Úteis</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#services" class="text-gray-400 hover:text-white transition">Serviços</a></li>
+                        <li><a href="cadastro.html" class="text-gray-400 hover:text-white transition">Cadastro</a></li>
+                        <li><a href="orcamento.html" class="text-gray-400 hover:text-white transition">Orçamento</a></li>
+                        <li><a href="index.html#contact" class="text-gray-400 hover:text-white transition">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-2">Assine para receber nossas promoções.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Seu e-mail" class="px-4 py-2 rounded-l-lg focus:outline-none text-gray-800 w-full">
+                        <button type="submit" class="gradient-bg px-4 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 Digital Tech. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Acessibilidade
+        document.body.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('outline-none', 'focus-visible:ring-2', 'focus-visible:ring-purple-500');
+            }
+        });
+
+        // Form handler
+        document.getElementById('quoteForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const serviceData = {
+                serviceType: document.getElementById('serviceType').value,
+                equipmentType: document.getElementById('equipmentType').value,
+                problemDescription: document.getElementById('problemDescription').value,
+                urgency: document.getElementById('urgency').value,
+                clientEmail: document.getElementById('clientEmail').value
+            };
+            localStorage.setItem('serviceData', JSON.stringify(serviceData));
+            try {
+                const supabaseUrl = document.querySelector('meta[name="supabase-url"]')?.content || '';
+                if (window.supabase && supabaseUrl) {
+                    const { data, error } = await window.supabase
+                        .from('solicitacoes')
+                        .insert(serviceData)
+                        .select()
+                        .single();
+                    if (error) {
+                        alert('Erro ao salvar no banco: ' + error.message);
+                    } else {
+                        const d = new Date();
+                        const ymd = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+                        localStorage.setItem('serviceProtocol', data?.id ? `DT-${ymd}-${String(data.id)}` : `DT-${ymd}`);
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Erro ao salvar no banco.');
+            }
+            window.location.href = 'confirmacao.html';
+        });
+    </script>
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+        const SUPABASE_URL = document.querySelector('meta[name="supabase-url"]')?.content || '';
+        const SUPABASE_KEY = 'sb_publishable_VnUv3wfgnZgYiS2L0e3Skg_CqBaDwT9';
+        window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    </script>
+</body>
+</html>

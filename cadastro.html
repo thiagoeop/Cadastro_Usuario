@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#6e8efb">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="supabase-url" content="https://vohxhccomugyjdnbwrif.supabase.co">
+    <title>Digital Tech - Cadastro de Cliente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+        }
+        .service-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .service-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 16px 32px rgba(106, 76, 255, 0.15);
+            border-color: #a777e3;
+        }
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.07); }
+            100% { transform: scale(1); }
+        }
+        /* Melhorias mobile */
+        html {
+            scroll-behavior: smooth;
+        }
+        input, select, textarea, button {
+            font-size: 1rem;
+        }
+        @media (max-width: 640px) {
+            h1, h2, h3, h4, h5, h6 {
+                font-size: 1.1em !important;
+            }
+            .container {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+            .rounded-lg {
+                border-radius: 0.75rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-laptop-code text-3xl"></i>
+                    <h1 class="text-2xl font-bold">Digital Tech</h1>
+                </div>
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-6">
+                        <li><a href="index.html#services" class="hover:text-gray-200 transition">Serviços</a></li>
+                        <li><a href="cadastro.html" class="hover:text-gray-200 transition font-bold">Cadastro</a></li>
+                        <li><a href="orcamento.html" class="hover:text-gray-200 transition">Orçamento</a></li>
+                        <li><a href="index.html#contact" class="hover:text-gray-200 transition">Contato</a></li>
+                    </ul>
+                </nav>
+                <button id="mobileMenuBtn" class="md:hidden text-2xl" aria-label="Abrir menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <nav id="mobileMenu" class="md:hidden hidden mt-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg shadow-lg">
+                <ul class="flex flex-col space-y-2 p-4">
+                    <li><a href="index.html#services" class="hover:text-gray-200 transition">Serviços</a></li>
+                    <li><a href="cadastro.html" class="hover:text-gray-200 transition font-bold">Cadastro</a></li>
+                    <li><a href="orcamento.html" class="hover:text-gray-200 transition">Orçamento</a></li>
+                    <li><a href="index.html#contact" class="hover:text-gray-200 transition">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Registration Form -->
+    <section id="register" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="gradient-bg text-white py-4 px-6">
+                    <h2 class="text-2xl font-bold">Cadastro de Cliente</h2>
+                    <p class="text-sm opacity-90">Preencha seus dados para se cadastrar em nosso sistema</p>
+                </div>
+                <form id="registrationForm" class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-gray-700 font-medium mb-2">Nome Completo*</label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 font-medium mb-2">E-mail*</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-gray-700 font-medium mb-2">Telefone*</label>
+                            <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                        </div>
+                        <div>
+                            <label for="cpf" class="block text-gray-700 font-medium mb-2">CPF*</label>
+                            <input type="text" id="cpf" name="cpf" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                        </div>
+                        <div>
+                            <label for="address" class="block text-gray-700 font-medium mb-2">Endereço</label>
+                            <input type="text" id="address" name="address" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                        <div>
+                            <label for="city" class="block text-gray-700 font-medium mb-2">Cidade</label>
+                            <input type="text" id="city" name="city" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox h-5 w-5 text-purple-600" required>
+                            <span class="ml-2 text-gray-700">Aceito os termos de uso e política de privacidade</span>
+                        </label>
+                    </div>
+                    <div class="mt-8 flex justify-center">
+                        <button type="submit" class="gradient-bg text-white font-bold py-3 px-10 rounded-lg hover:scale-105 hover:shadow-xl transition-all duration-300 w-full md:w-auto text-lg flex items-center justify-center gap-2">
+                            <i class="fas fa-user-plus"></i> Cadastrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Digital Tech</h3>
+                    <p class="text-gray-400">Soluções em tecnologia e manutenção de computadores com qualidade e garantia.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Links Úteis</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#services" class="text-gray-400 hover:text-white transition">Serviços</a></li>
+                        <li><a href="cadastro.html" class="text-gray-400 hover:text-white transition">Cadastro</a></li>
+                        <li><a href="orcamento.html" class="text-gray-400 hover:text-white transition">Orçamento</a></li>
+                        <li><a href="index.html#contact" class="text-gray-400 hover:text-white transition">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-2">Assine para receber nossas promoções.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Seu e-mail" class="px-4 py-2 rounded-l-lg focus:outline-none text-gray-800 w-full">
+                        <button type="submit" class="gradient-bg px-4 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 Digital Tech. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        
+        // Acessibilidade
+        document.body.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('outline-none', 'focus-visible:ring-2', 'focus-visible:ring-purple-500');
+            }
+        });
+
+        // Form handler
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const clientData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                cpf: document.getElementById('cpf').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value
+            };
+            localStorage.setItem('clientData', JSON.stringify(clientData));
+            try {
+                const supabaseUrl = document.querySelector('meta[name="supabase-url"]')?.content || '';
+                if (window.supabase && supabaseUrl) {
+                    const { data, error } = await window.supabase
+                        .from('clientes')
+                        .insert(clientData)
+                        .select()
+                        .single();
+                    if (error) {
+                        alert('Erro ao salvar no banco: ' + error.message);
+                    } else {
+                        const d = new Date();
+                        const ymd = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+                        localStorage.setItem('clientProtocol', data?.id ? `DT-${ymd}-${String(data.id)}` : `DT-${ymd}`);
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Erro ao salvar no banco.');
+            }
+            window.location.href = 'confirmacao.html';
+        });
+
+         // CPF mask
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            e.target.value = value;
+        });
+
+        // Phone mask
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+            value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+            e.target.value = value;
+        });
+    </script>
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+        const SUPABASE_URL = document.querySelector('meta[name="supabase-url"]')?.content || '';
+        const SUPABASE_KEY = 'sb_publishable_VnUv3wfgnZgYiS2L0e3Skg_CqBaDwT9';
+        window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    </script>
+</body>
+</html>
+
