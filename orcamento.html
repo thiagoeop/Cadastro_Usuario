@@ -689,72 +689,92 @@
         }
         
         // Form submission
-        document.getElementById('quoteForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+      // Form submission - VERSÃO CORRIGIDA
+document.getElementById('quoteForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Validate step 3
+    const clientEmail = document.getElementById('clientEmail').value;
+    if (!clientEmail || !clientEmail.includes('@')) {
+        alert('Por favor, insira um e-mail válido.');
+        return;
+    }
+    
+    // Show loading
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span> Enviando...</span>';
+    submitBtn.disabled = true;
+    
+    // Dados CORRETOS com nomes das colunas da tabela
+    const serviceData = {
+        tipo_servico: document.getElementById('serviceType').value,
+        tipo_equipamento: document.getElementById('equipmentType').value,
+        descricao_problema: document.getElementById('problemDescription').value,
+        urgencia: document.getElementById('urgency').value,
+        email_cliente: clientEmail,
+        nome_cliente: document.getElementById('clientName').value || '',
+        telefone_cliente: document.getElementById('clientPhone').value || '',
+        status: 'pendente',
+        created_at: new Date().toISOString()
+    };
+    
+    // Salvar no localStorage (para backup)
+    localStorage.setItem('serviceData', JSON.stringify(serviceData));
+    
+    try {
+        const supabaseUrl = document.querySelector('meta[name="supabase-url"]')?.content || '';
+        if (window.supabase && supabaseUrl) {
+            // Inserir no banco de dados
+            const { data, error } = await window.supabase
+                .from('solicitacoes')
+                .insert(serviceData)
+                .select()
+                .single();
             
-            // Validate step 3
-            const clientEmail = document.getElementById('clientEmail').value;
-            if (!clientEmail || !clientEmail.includes('@')) {
-                alert('Por favor, insira um e-mail válido.');
-                return;
-            }
-            
-            // Show loading
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span> Enviando...</span>';
-            submitBtn.disabled = true;
-            
-           const serviceData = {
-    tipo_servico: document.getElementById('serviceType').value,
-    tipo_equipamento: document.getElementById('equipmentType').value,
-    descricao_problema: document.getElementById('problemDescription').value,
-    urgencia: document.getElementById('urgency').value,
-    email_cliente: clientEmail,  // ← Nome CORRETO
-    nome_cliente: document.getElementById('clientName').value || '',
-    telefone_cliente: document.getElementById('clientPhone').value || '',
-    status: 'pendente',
-    created_at: new Date().toISOString()
-};
-            
-            localStorage.setItem('serviceData', JSON.stringify(serviceData));
-            
-            try {
-                const supabaseUrl = document.querySelector('meta[name="supabase-url"]')?.content || '';
-                if (window.supabase && supabaseUrl) {
-                    const { data, error } = await window.supabase
-                        .from('solicitacoes')
-                        .insert(serviceData)
-                        .select()
-                        .single();
-                    if (error) {
-                        alert('Erro ao salvar no banco: ' + error.message);
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                        return;
-                    } else {
-                        const d = new Date();
-                        const ymd = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
-                        localStorage.setItem('serviceProtocol', data?.id ? `DT-${ymd}-${String(data.id)}` : `DT-${ymd}`);
-                    }
-                }
-            } catch (err) {
-                console.error(err);
-                alert('Erro ao salvar no banco.');
+            if (error) {
+                console.error('Erro Supabase:', error);
+                alert('Erro ao salvar no banco: ' + error.message);
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
                 return;
+            } else {
+                console.log('Dados salvos com sucesso:', data);
+                
+                // Salvar protocolo no localStorage
+                localStorage.setItem('serviceProtocol', data.protocolo || 'DT-' + Date.now());
+                
+                // Success animation
+                submitBtn.innerHTML = '<i class="fas fa-check"></i><span> Enviado com sucesso!</span>';
+                submitBtn.classList.remove('gradient-bg');
+                submitBtn.classList.add('bg-green-500');
+                
+                // Redirecionar para confirmação após 1.5 segundos
+                setTimeout(() => {
+                    window.location.href = 'confirmacao.html';
+                }, 1500);
             }
-            
-            // Success animation
-            submitBtn.innerHTML = '<i class="fas fa-check"></i><span> Enviado com sucesso!</span>';
-            submitBtn.classList.remove('gradient-bg');
-            submitBtn.classList.add('bg-green-500');
-            
-            setTimeout(() => {
-                window.location.href = 'confirmacao.html';
-            }, 1000);
-        });
+        } else {
+            throw new Error('Conexão com Supabase não configurada');
+        }
+    } catch (err) {
+        console.error('Erro geral:', err);
+        alert('Erro ao salvar no banco. Dados salvos localmente.');
+        
+        // Fallback: salvar apenas no localStorage
+        const d = new Date();
+        const ymd = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+        localStorage.setItem('serviceProtocol', `DT-${ymd}-LOCAL`);
+        
+        submitBtn.innerHTML = '<i class="fas fa-check"></i><span> Enviado (offline)</span>';
+        submitBtn.classList.remove('gradient-bg');
+        submitBtn.classList.add('bg-yellow-500');
+        
+        setTimeout(() => {
+            window.location.href = 'confirmacao.html';
+        }, 1500);
+    }
+});
         
         // Auto-fill from localStorage if available
         window.addEventListener('DOMContentLoaded', () => {
@@ -779,4 +799,5 @@
     </script>
 </body>
 </html>
+
 
