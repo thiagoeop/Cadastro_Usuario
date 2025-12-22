@@ -318,43 +318,43 @@
                     <div id="step1" class="form-step active">
                         <h4 class="text-xl font-bold text-gray-800 mb-6">Selecione o Tipo de Serviço</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                            <!-- TESTE com diferentes formatos -->
-                            <div class="service-option" data-value="preventiva" data-alt-value="Manutenção Preventiva">
+                            <!-- VALORES TESTADOS - vamos usar os valores originais primeiro -->
+                            <div class="service-option" data-value="preventiva">
                                 <div class="service-icon gradient-bg text-white">
                                     <i class="fas fa-shield-alt"></i>
                                 </div>
                                 <h5 class="font-bold text-gray-800 mb-2">Manutenção Preventiva</h5>
                                 <p class="text-gray-600 text-sm">Limpeza, otimização e verificação de hardware/software.</p>
                             </div>
-                            <div class="service-option" data-value="corretiva" data-alt-value="Manutenção Corretiva">
+                            <div class="service-option" data-value="corretiva">
                                 <div class="service-icon gradient-bg text-white">
                                     <i class="fas fa-tools"></i>
                                 </div>
                                 <h5 class="font-bold text-gray-800 mb-2">Manutenção Corretiva</h5>
                                 <p class="text-gray-600 text-sm">Reparo de problemas e substituição de componentes.</p>
                             </div>
-                            <div class="service-option" data-value="virus" data-alt-value="Remoção de Vírus">
+                            <div class="service-option" data-value="virus">
                                 <div class="service-icon gradient-bg text-white">
                                     <i class="fas fa-bug"></i>
                                 </div>
                                 <h5 class="font-bold text-gray-800 mb-2">Remoção de Vírus</h5>
                                 <p class="text-gray-600 text-sm">Eliminação de malware, spyware e outros riscos.</p>
                             </div>
-                            <div class="service-option" data-value="dados" data-alt-value="Recuperação de Dados">
+                            <div class="service-option" data-value="dados">
                                 <div class="service-icon gradient-bg text-white">
                                     <i class="fas fa-hdd"></i>
                                 </div>
                                 <h5 class="font-bold text-gray-800 mb-2">Recuperação de Dados</h5>
                                 <p class="text-gray-600 text-sm">Recuperação de arquivos perdidos ou corrompidos.</p>
                             </div>
-                            <div class="service-option" data-value="rede" data-alt-value="Problemas de Rede">
+                            <div class="service-option" data-value="rede">
                                 <div class="service-icon gradient-bg text-white">
                                     <i class="fas fa-network-wired"></i>
                                 </div>
                                 <h5 class="font-bold text-gray-800 mb-2">Problemas de Rede</h5>
                                 <p class="text-gray-600 text-sm">Configuração e solução de problemas de rede.</p>
                             </div>
-                            <div class="service-option" data-value="upgrade" data-alt-value="Upgrade de Hardware">
+                            <div class="service-option" data-value="upgrade">
                                 <div class="service-icon gradient-bg text-white">
                                     <i class="fas fa-microchip"></i>
                                 </div>
@@ -380,11 +380,18 @@
                             <label for="equipmentType" class="block text-gray-700 font-medium mb-3">Tipo de Equipamento *</label>
                             <select id="equipmentType" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none input-focus select-arrow bg-white/50" required>
                                 <option value="" disabled selected>Selecione o equipamento</option>
-                                <option value="Notebook">Notebook</option>
-                                <option value="Desktop">Computador Desktop</option>
-                                <option value="All-in-One">All-in-One</option>
-                                <option value="Servidor">Servidor</option>
-                                <option value="Outro">Outro</option>
+                                <!-- TESTAR DIFERENTES VALORES -->
+                                <option value="notebook">Notebook</option>
+                                <option value="desktop">Desktop</option>
+                                <option value="allinone">All-in-One</option>
+                                <option value="servidor">Servidor</option>
+                                <option value="outro">Outro</option>
+                                <!-- VALORES ALTERNATIVOS -->
+                                <option value="Notebook">Notebook (Maiúscula)</option>
+                                <option value="Desktop">Desktop (Maiúscula)</option>
+                                <option value="All-in-One">All-in-One (Maiúscula)</option>
+                                <option value="Servidor">Servidor (Maiúscula)</option>
+                                <option value="Outro">Outro (Maiúscula)</option>
                             </select>
                         </div>
                         
@@ -689,7 +696,7 @@
             });
         }
         
-        // Form submission - VERSÃO COM DEBUG MELHORADO
+        // Form submission - VERSÃO CORRIGIDA PARA tipo_equipamento
         document.getElementById('quoteForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -706,31 +713,9 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span> Enviando...</span>';
             submitBtn.disabled = true;
             
-            // TESTAR DIFERENTES VALORES PARA tipo_servico
-            const serviceValue = document.getElementById('serviceType').value;
-            
-            // Mapeamento de valores possíveis
-            const serviceMapping = {
-                'preventiva': ['Manutenção Preventiva', 'preventiva', 'Preventiva', 'MANUTENÇÃO PREVENTIVA'],
-                'corretiva': ['Manutenção Corretiva', 'corretiva', 'Corretiva', 'MANUTENÇÃO CORRETIVA'],
-                'virus': ['Remoção de Vírus', 'virus', 'Virus', 'REMOCAO VIRUS', 'REMOV_VIRUS'],
-                'dados': ['Recuperação de Dados', 'dados', 'Dados', 'RECUP_DADOS'],
-                'rede': ['Problemas de Rede', 'rede', 'Rede', 'PROB_REDE'],
-                'upgrade': ['Upgrade de Hardware', 'upgrade', 'Upgrade', 'UPG_HARDWARE']
-            };
-            
-            // Vamos testar vários valores possíveis
-            let finalServiceValue = serviceValue;
-            
-            // Se tiver um valor alternativo, use-o primeiro
-            const selectedOption = document.querySelector('.service-option.selected');
-            if (selectedOption && selectedOption.dataset.altValue) {
-                finalServiceValue = selectedOption.dataset.altValue;
-            }
-            
             // Dados CORRETOS com nomes das colunas da tabela
             const serviceData = {
-                tipo_servico: finalServiceValue,
+                tipo_servico: document.getElementById('serviceType').value,
                 tipo_equipamento: document.getElementById('equipmentType').value,
                 descricao_problema: document.getElementById('problemDescription').value,
                 urgencia: document.getElementById('urgency').value,
@@ -762,61 +747,25 @@
                         .single();
                     
                     if (error) {
-                        console.error('Erro Supabase (tentativa 1):', error);
+                        console.error('Erro Supabase:', error);
                         
-                        // Tentativa 2: Se o erro for de constraint, tentar valores alternativos
+                        // Se for erro de constraint, mostrar mensagem específica
                         if (error.message.includes('check constraint')) {
-                            console.log('Tentando valores alternativos...');
-                            
-                            // Testar valores alternativos baseados no mapeamento
-                            const alternatives = serviceMapping[serviceValue] || [];
-                            let success = false;
-                            
-                            for (let i = 0; i < alternatives.length; i++) {
-                                const altServiceData = {...serviceData};
-                                altServiceData.tipo_servico = alternatives[i];
-                                
-                                console.log(`Tentativa ${i+1}: tipo_servico = "${alternatives[i]}"`);
-                                
-                                const { data: altData, error: altError } = await window.supabase
-                                    .from('solicitacoes')
-                                    .insert(altServiceData)
-                                    .select()
-                                    .single();
-                                
-                                if (!altError) {
-                                    console.log(`Sucesso com valor: "${alternatives[i]}"`);
-                                    success = true;
-                                    
-                                    // Salvar protocolo no localStorage
-                                    localStorage.setItem('serviceProtocol', altData.protocolo || 'DT-' + Date.now());
-                                    
-                                    // Success animation
-                                    submitBtn.innerHTML = '<i class="fas fa-check"></i><span> Enviado com sucesso!</span>';
-                                    submitBtn.classList.remove('gradient-bg');
-                                    submitBtn.classList.add('bg-green-500');
-                                    
-                                    // Redirecionar para confirmação após 1.5 segundos
-                                    setTimeout(() => {
-                                        window.location.href = 'confirmacao.html';
-                                    }, 1500);
-                                    return;
-                                }
-                            }
-                            
-                            if (!success) {
-                                alert('Erro ao salvar no banco: ' + error.message + '\n\nTente selecionar o serviço novamente.');
-                                submitBtn.innerHTML = originalText;
-                                submitBtn.disabled = false;
-                                return;
+                            // Verificar qual constraint falhou
+                            if (error.message.includes('tipo_equipamento_check')) {
+                                alert('Valor inválido para "Tipo de Equipamento".\n\nPor favor, selecione um valor válido da lista (sem texto adicional nos parênteses).\n\nExemplo: escolha "Notebook" em vez de "Notebook (Maiúscula)".');
+                            } else if (error.message.includes('tipo_servico_check')) {
+                                alert('Valor inválido para "Tipo de Serviço".\n\nPor favor, selecione novamente o tipo de serviço.');
+                            } else if (error.message.includes('urgencia_check')) {
+                                alert('Valor inválido para "Urgência".\n\nPor favor, selecione novamente o nível de urgência.');
                             }
                         } else {
-                            // Outro tipo de erro
                             alert('Erro ao salvar no banco: ' + error.message);
-                            submitBtn.innerHTML = originalText;
-                            submitBtn.disabled = false;
-                            return;
                         }
+                        
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                        return;
                     } else {
                         console.log('Dados salvos com sucesso:', data);
                         
@@ -876,31 +825,50 @@
         const SUPABASE_KEY = 'sb_publishable_TM0jATR7d2Y-xuLRT10t2g_bXJ6OLKW';
         window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
         
-        // Função para verificar os valores permitidos na tabela
-        async function checkAllowedValues() {
+        // Função para verificar os valores permitidos
+        async function checkTableValues() {
             try {
-                // Tentar buscar alguns dados existentes para ver os valores
+                // Verificar valores existentes
                 const { data, error } = await window.supabase
                     .from('solicitacoes')
-                    .select('tipo_servico')
-                    .limit(5);
+                    .select('tipo_servico, tipo_equipamento, urgencia')
+                    .limit(10);
                 
                 if (!error && data && data.length > 0) {
                     console.log('=== VALORES EXISTENTES NA TABELA ===');
-                    const uniqueValues = [...new Set(data.map(item => item.tipo_servico))];
-                    console.log('Valores únicos de tipo_servico:', uniqueValues);
+                    
+                    const uniqueServicos = [...new Set(data.map(item => item.tipo_servico))];
+                    const uniqueEquipamentos = [...new Set(data.map(item => item.tipo_equipamento))];
+                    const uniqueUrgencias = [...new Set(data.map(item => item.urgencia))];
+                    
+                    console.log('tipo_servico:', uniqueServicos);
+                    console.log('tipo_equipamento:', uniqueEquipamentos);
+                    console.log('urgencia:', uniqueUrgencias);
                     console.log('====================================');
                     
-                    // Mostrar alerta informativo
-                    alert('Valores permitidos para "tipo_servico":\n' + uniqueValues.join('\n'));
+                    // Criar uma mensagem amigável
+                    let message = 'Valores permitidos encontrados na tabela:\n\n';
+                    message += 'Tipo de Serviço:\n' + uniqueServicos.join('\n') + '\n\n';
+                    message += 'Tipo de Equipamento:\n' + uniqueEquipamentos.join('\n') + '\n\n';
+                    message += 'Urgência:\n' + uniqueUrgencias.join('\n');
+                    
+                    alert(message);
+                } else {
+                    alert('Nenhum dado encontrado na tabela ou erro ao consultar.');
                 }
             } catch (err) {
                 console.error('Erro ao verificar valores:', err);
+                alert('Erro ao consultar tabela: ' + err.message);
             }
         }
         
-        // Expor a função globalmente para teste
-        window.checkAllowedValues = checkAllowedValues;
+        // Expor a função globalmente
+        window.checkTableValues = checkTableValues;
+        
+        // Executar automaticamente ao carregar para diagnóstico
+        setTimeout(() => {
+            console.log('Página carregada. Use checkTableValues() no console para ver os valores permitidos.');
+        }, 1000);
     </script>
 </body>
 </html>
